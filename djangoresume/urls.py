@@ -36,3 +36,6 @@ urlpatterns += [
     path('education/<int:pk>/update/', views.EducationUpdate.as_view(), name='education_update'),
     path('education/<int:pk>/delete/', views.EducationDelete.as_view(), name='education_delete'),
 ]
+'''
+
+

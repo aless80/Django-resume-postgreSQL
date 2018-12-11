@@ -23,6 +23,8 @@ class PersonalInfo(models.Model):
     github = models.URLField(blank=True)
     site = models.URLField(blank=True)
     twittername = models.CharField(max_length=100, blank=True)
+    image = models.ImageField(upload_to='static/resume/img/',blank=True)
+    cv_pdf = models.FileField(upload_to='static/resume/img/', blank=True, help_text='Downloadable resume file')
     class Meta:
         verbose_name_plural = "01. Personal Info"    
     def full_name(self):
@@ -204,11 +206,12 @@ class Language(models.Model):
         (1, 'Elementary professional proficiency')
         )
     level = models.IntegerField(help_text='Choice between 1 and 5', default=5, choices=ILR_scale)
+    addendum = models.CharField(max_length=20, blank=True)
     class Meta:
         verbose_name_plural = "10. Languages"
         ordering = ['level','order']
     def __unicode__(self):
-        return ' - '.join([self.language, self.level])
+        return ' - '.join([self.language, str(self.level)])
     def __str__(self):
         return self.language
 
@@ -219,22 +222,29 @@ class ProjectType(models.Model):
         verbose_name_plural = "11. ProjectTypes"
         ordering = ['order','id']
     def __unicode__(self):
-        return ' - '.join([self.name, self.id])
+        return ' - '.join([self.name, str(self.id)])
     def __str__(self):
         return self.name
 
 class Project(models.Model):
     name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    short_description = models.TextField(blank=True,help_text="Text shown in project list")
+    long_description = models.TextField(blank=True,help_text="Text shown in modals appearing when clicking on images")
     link = models.URLField(blank=True)
     order = models.IntegerField(default=1)
-    picture = models.CharField(blank=True, max_length=150)
+    #file will be uploaded to MEDIA_ROOT/<upload_to>  '/resume/static/resume/'
+    image = models.ImageField(upload_to='static/resume/img/',blank=True,
+                              help_text="Preferred width x height: 247x200")
     projtype = models.ForeignKey('ProjectType',on_delete=models.CASCADE,default=1)
+    def save(self, *args, **kwargs):
+        if not self.long_description:
+            self.long_description = self.short_description
+        super(Project, self).save(*args, **kwargs)
     class Meta:
         verbose_name_plural = "12. Projects"
         ordering = ['order','id']
     def __unicode__(self):
-        return ' - '.join([self.name, self.link, self.description[0:50]+'...'])
+        return ' - '.join([self.name, self.link, self.short_description[0:50]+'...'])
     def __str__(self):
         return self.name
 
@@ -243,6 +253,8 @@ class Achievement(models.Model):
     description = models.TextField()
     order = models.IntegerField(default=1)
     url = models.URLField('URL', blank=True)
+    # file will be uploaded to MEDIA_ROOT/<upload_to>  '/resume/static/resume/'
+    achievement_pdf = models.FileField(upload_to='static/resume/img/', blank=True, help_text='Downloadable file')
     #linkdefault = 'this link'
     #if url is not '': linkdefault = ''
     #linkname = models.CharField(default=linkdefault, max_length=150, blank=True)
@@ -251,7 +263,7 @@ class Achievement(models.Model):
         db_table = 'achievement'
         ordering = ['order', 'id']
     def __unicode__(self):
-        return ' - '.join([self.order, self.link, self.description[0:50]+'...'])
+        return ' - '.join([str(self.order), self.url, self.description[0:50]+'...'])
     def __str__(self):
         return self.title
 
@@ -271,6 +283,6 @@ class Publication(models.Model):
     def formatted_authors(self):
         return self.authors.replace(self.author_underlined,'<span class="strong-underlined">'+self.author_underlined+'</span>')
     def __unicode__(self):
-        return ' - '.join([self.id, self.year, self.order, self.journal[0:10]+'...'])
+        return ' - '.join([str(self.id), str(self.year), str(self.order), self.journal[0:10]+'...'])
     def __str__(self):
         return self.title[0:10]+'...'

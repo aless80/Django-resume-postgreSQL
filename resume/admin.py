@@ -9,7 +9,7 @@ from .models import Achievement, Publication
 
 class PersonalInfoAdmin(admin.ModelAdmin):
     exclude = ()
-    list_display = ('first_name','last_name','title','locality','region',)
+    list_display = ('first_name','last_name','title','image','locality','region',)
 
 class OverviewAdmin(admin.ModelAdmin): #customize appearance
     list_display = ['text'] #otherwise it displays 'object'
@@ -20,7 +20,7 @@ class EducationAdmin(admin.ModelAdmin):
     search_fields = ('name','name2', 'degree')
     #prepopulated_fields = {'slug': ('degree',)}
     date_hierarchy = 'end_date'
-    ordering = ['end_date', 'id']
+    ordering = ['-end_date', 'id']
 
 class JobAdmin(admin.ModelAdmin):
     list_display = ('company', 'location', 'title', 'end_date')
@@ -28,7 +28,7 @@ class JobAdmin(admin.ModelAdmin):
     search_fields = ('company', 'location', 'title')
     #prepopulated_fields = {'slug': ('degree',)}
     date_hierarchy = 'end_date'
-    ordering = ['end_date', 'id']
+    ordering = ['-end_date', 'id']
     #def __unicode__(self):
     #    return self.company
 
@@ -84,9 +84,9 @@ class ProgrammingLanguageAdmin(admin.ModelAdmin):
 
 class LanguageAdmin(admin.ModelAdmin):
     exclude = ()
-    list_display = ('language', 'order', 'level',)
-    list_filter = ('language', 'order', 'level',)
-    search_fields = ('language', 'level',)
+    list_display = ('language', 'order', 'level','addendum')
+    list_filter = ('language', 'order', 'level','addendum')
+    search_fields = ('language', 'level','addendum')
     #prepopulated_fields = {'slug': ('degree',)}
     #date_hierarchy = 'order'
     ordering = ['-level','order']
@@ -100,16 +100,16 @@ class ProjectTypeAdmin(admin.ModelAdmin):
 
 class ProjectAdmin(admin.ModelAdmin):
     exclude = ()
-    list_display = ('get_projtype','name','order', 'description',)
+    list_display = ('get_projtype','name','order','image','short_description','long_description')
     list_filter = ('projtype__name','name','order',)
-    search_fields = ('projtype__name','name','order', 'description', 'link',)
+    search_fields = ('projtype__name','name','order','image','short_description','long_description','link',)
     ordering = ['projtype__name','order']
     def get_projtype(self, obj):
         return obj.projtype.name
 
 class AchievementAdmin(admin.ModelAdmin):
     exclude = ()
-    list_display = ('title','description', 'order', 'url','id')
+    list_display = ('title', 'description', 'order', 'id', 'url', 'achievement_pdf')
     list_filter = ('title','url')
     search_fields = ('title','description','name',)
     #prepopulated_fields = {'slug': ('degree',)}

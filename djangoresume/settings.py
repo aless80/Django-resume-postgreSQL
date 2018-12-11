@@ -16,6 +16,7 @@ import sys
 RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
 print("RUNNING_DEVSERVER: "+str(RUNNING_DEVSERVER))
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #Deploy settings
 #SECURE_CONTENT_TYPE_NOSNIFF = True     #Not needed because Django isn’t involved in serving user-uploaded files
@@ -23,15 +24,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #SECURE_SSL_REDIRECT = True          #Serve https
 #SESSION_COOKIE_SECURE = True
 #CSRF_COOKIE_SECURE = True
-
+print("BASE_DIR: "+str(BASE_DIR))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY=os.environ.get('SECRET_KEY')
-SECRET_KEY = 'pdr@%#n+*#s)4d5rso^m#a@2b=ozbv3k6)z8^)4)-&k7#fc)%i'
+if os.environ.get('SECRET_KEY') is None:
+    print('')
+    import sys
+    sys.exit("Please define an environment variable as follows:\nexport SECRET_KEY='some text'")
 
+SECRET_KEY=os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = RUNNING_DEVSERVER
@@ -136,8 +140,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
+
+# URL prefix for static files. eg http://aless80.pythonanywhere.com/static/
+STATIC_URL = "/static/"
+#Absolute path to the directory static files should be collected to, eg: /home/amarin/Mezzanine/static/
+# Don't put anything here yourself; store your static files in subdirectories of apps/static/ and in STATICFILES_DIRS.
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
         os.path.join(BASE_DIR, '/static')
