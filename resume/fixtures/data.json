@@ -72,7 +72,9 @@
         "facebook": "",
         "github": "https://github.com/aless80",
         "site": "https://aless80.pythonanywhere.com/",
-        "twittername": ""
+        "twittername": "",
+        "image": "static/resume/img/profile.jpg",
+        "cv_pdf": ""
     }
 },
 {

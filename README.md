@@ -1,5 +1,5 @@
 ## Djangoresume
-Resume site based on Django. See it live at [aless80.pythonanywhere.com](https://aless80.pythonanywhere.com/)
+Resume site based on Django. See it live at [aless80.pythonanywhere.com/resume](https://aless80.pythonanywhere.com/resume)
 
 ## Table of Contents
 * [Installation](#installation)  
@@ -12,15 +12,15 @@ Resume site based on Django. See it live at [aless80.pythonanywhere.com](https:/
 -------------
 
 ## Installation
-This repository uses a PostgreSQL database. The data for my CV has been dumped to resume/fictures/data.json. 
-I suggest setting up a virtual environment for python 3.4, installing PostgreSQL, create a database user, and set up a couple of secret keys and passwords.
+This repository uses a PostgreSQL database. The data for my CV has been dumped to `resume/fixtures/data.json`. 
+I suggest setting up a virtual environment for python 3.4, installing PostgreSQL, create a database user, and set up secret keys and passwords.
 
 #### PostgreSQL
 Install PostgreSQL and create a database user as follows (in linux):
 <pre>
-sudo apt-get install python-pip python-dev libpq-dev postgresql postgresql-contrib
+sudo apt-get install python-pip libpq-dev postgresql postgresql-contrib libjpeg-dev zlib1g-dev
 sudo -u postgres psql
-CREATE DATABASE Djangoresume;
+CREATE DATABASE djangoresume;
 CREATE USER <i>myprojectuser</i> WITH PASSWORD '<i>password</i>';
 ALTER ROLE <i>myprojectuser</i> SET client_encoding TO 'utf8';
 ALTER ROLE <i>myprojectuser</i> SET default_transaction_isolation TO 'read committed';
@@ -31,26 +31,23 @@ GRANT ALL PRIVILEGES ON DATABASE Djangoresume TO <i>myprojectuser</i>;
 
 #### Virtual environment
 <pre>
-python3 -m pip3 install --user virtualenv 
-cd ~/virtualenv 
-virtualenv django_resume
-source django_resume/bin/activate
-(django_resume)$ pip3 install psycopg2 --user
-(django_resume)$ pip install -r requirements.txt 	#<b>TODO!!</b>
-(django_resume)$ python setup.py install          	#<b>TODO*!!</b>
+python3 -V     # Python 3.10.12
+python3 -m venv venv 
+source venv/bin/activate
+(venv)$ pip install -r requirements.txt
 </pre>
 
-#### Security settings
-There are a couple of security settings to setup manually. Open the djangoresume/settings.py file and change USER and PASSWORD here: 
+#### Security Settings
+There are a couple of security settings to setup manually. Open the `djangoresume/settings.py` file and change USER and PASSWORD here: 
 <pre>
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'resume',
-        'USER': 'resume',     		#change this to the user <i>myprojectuser</i> created above
-        'PASSWORD': 'Djangoresume',	#change this to the database password above
+        'NAME': 'djangoresume',
+        'USER': '<<i>myprojectuser</i>>',   #change this to the user <i>myprojectuser</i> created above
+        'PASSWORD': '<i>password</i>',	     #change this to the database password above
 </pre>
-Also change the SECRET_KEY in djangoresume/settings.py. I suggest setting SECRET_KEY to the following line: 
+Also set up the `SECRET_KEY` in `djangoresume/settings.py`. I suggest leaving`SECRET_KEY` as is in that file: 
 ```
 SECRET_KEY=os.environ.get('SECRET_KEY')
 ```
@@ -67,6 +64,11 @@ python3 manage.py loaddata resume/fixtures/data.json
 To start fresh: 
 ```
 python3 manage.py flush 		#clear all data
+```
+
+To start the application locally:
+```
+python3 manage.py migrate
 python3 manage.py createsuperuser 	#create a superuser
 python3 manage.py runserver 		#launch the server
 !firefox http://127.0.0.1:8000/admin 	#launch your browser on localhost

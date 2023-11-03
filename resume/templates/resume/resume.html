@@ -325,50 +325,49 @@
   <section class="resume-section p-3 p-lg-5 d-flex flex-column" id="other">
     <div class="my-auto">
       <h2 class="mb-5">Other</h2>
-    <div class="subheading mb-3">
+      <div class="subheading mb-3">
         <h3 class="mb-0">Other Achievements</h3>
-    </div>
-    <ul class="achievements">
-      {% for ach in achievement %}
-      <ul class="fa-ul mb-0">
-        <li>
-          <i class="fa-li fa fa-check"></i>
-          {% if ach.title %}
-              {% if ach.url %}
-          <a href="{{ ach.url}}" target="_block">{{ ach.title }}</a>:
-              {% elif ach.achievement_pdf %}
-                <a href="{{ ach.achievement_pdf.url }}" target="_block">{{ ach.title }} </a>:
-              {%endif%}
-          {%endif%}
-          {{ ach.description|capfirst|safe }} 
-        </li>
+      </div>
+      <ul class="achievements">
+        {% for ach in achievement %}
+        <ul class="fa-ul mb-0">
+          <li>
+            <i class="fa-li fa fa-check"></i>
+            {% if ach.title %}
+                {% if ach.url %}
+            <a href="{{ ach.url}}" target="_block">{{ ach.title }}</a>:
+                {% elif ach.achievement_pdf %}
+                  <a href="{{ ach.achievement_pdf.url }}" target="_block">{{ ach.title }} </a>:
+                {%endif%}
+            {%endif%}
+            {{ ach.description|capfirst|safe }}
+          </li>
+        </ul>
+        {% endfor %}
       </ul>
-      {% endfor %}
-    </ul>
-    <br>
+      <br>
 
-    {% if publication %}
-    <div class="subheading mb-3">
-      <h3 class="mb-0">Publications</h3>
-    </div>
-    <ul class="achievements">
-      {% for pub in publication %}
-      <ul class="fa-ul mb-0">
-        <li >
-          <i class="fa-li fa fa-check" style="display:block;"></i>
-          {{ pub.formatted_authors|safe }} {{ pub.title }} 
-            <span class="italic">{{ pub.journal }}</span>, {{ pub.year }},
-          {{ pub.journalpages }}.
-          <a target="_blank" href="{{ pub.link }}">Link</a>
-        </li>
+      {% if publication %}
+      <div class="subheading mb-3">
+        <h3 class="mb-0">Publications</h3>
+      </div>
+      <ul class="achievements">
+        {% for pub in publication %}
+        <ul class="fa-ul mb-0">
+          <li >
+            <i class="fa-li fa fa-check" style="display:block;"></i>
+            {{ pub.formatted_authors|safe }} {{ pub.title }}
+              <span class="italic">{{ pub.journal }}</span>, {{ pub.year }},
+            {{ pub.journalpages }}.
+            <a target="_blank" href="{{ pub.link }}">Link</a>
+          </li>
+        </ul>
+        {% endfor %}
       </ul>
-      {% endfor %}
-    </ul>
-    {% endif %}
-  </div>
+      {% endif %}
+    </div>
   </section>
 
-
-          </div>
+</div>
 {% endwith %}
 {% endblock %}

@@ -13,19 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url,include
+from django.urls import include, re_path
 from django.contrib import admin
 from resume import views #import my views
 from django.urls import path
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', views.index, name='index'),
+    re_path(r'^admin/', admin.site.urls),
+    re_path(r'^$', views.index, name='index'),
+    re_path(r'^resume/$', views.index, name='index'),
 ]
 urlpatterns += [ #Add Django site authentication urls (for login, logout, password management)
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 ### TODO <int:pk> can be a slug - https://chriskief.com/2012/12/29/django-generic-detailview-without-a-pk-or-slug/
-urlpatterns += [  
+urlpatterns += [
     path('overview/create/', views.OverviewCreate.as_view(), name='overview_create'),
     path('overview/<int:pk>/update/', views.OverviewUpdate.as_view(), name='overview_update'),
     path('overview/<int:pk>/delete/', views.OverviewDelete.as_view(), name='overview_delete'),
@@ -36,6 +37,5 @@ urlpatterns += [
     path('education/<int:pk>/update/', views.EducationUpdate.as_view(), name='education_update'),
     path('education/<int:pk>/delete/', views.EducationDelete.as_view(), name='education_delete'),
 ]
-'''
 
 

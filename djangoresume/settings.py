@@ -16,7 +16,6 @@ import sys
 RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
 print("RUNNING_DEVSERVER: "+str(RUNNING_DEVSERVER))
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #Deploy settings
 #SECURE_CONTENT_TYPE_NOSNIFF = True     #Not needed because Django isn’t involved in serving user-uploaded files
@@ -96,9 +95,9 @@ WSGI_APPLICATION = 'djangoresume.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'resume',
-        'USER': 'resume',
-        'PASSWORD': 'Djangoresume',
+        'NAME': 'djangoresume',
+        'USER': 'aless80',
+        'PASSWORD': 'asasas',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -138,17 +137,21 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
-
+# Static files (CSS, JavaScript, Images) and Media files (uploaded by users)
 # URL prefix for static files. eg http://aless80.pythonanywhere.com/static/
 STATIC_URL = "/static/"
-#Absolute path to the directory static files should be collected to, eg: /home/amarin/Mezzanine/static/
+#Absolute path to the directory static s should be collected to, eg: /home/amarin/Mezzanine/static/
 # Don't put anything here yourself; store your static files in subdirectories of apps/static/ and in STATICFILES_DIRS.
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# URL that handles the media served from MEDIA_ROOT. NB trailing slash. eg http://aless80.pythonanywhere.com/media/
+#MEDIA_URL = STATIC_URL + "media/"
+MEDIA_URL = "/media/"
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+# Example: "/home/amarin/Mezzanine/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "assets/media/")
 
 STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, '/static')
+        os.path.join(BASE_DIR, 'resume/static')
 ]
 print("STATIC_ROOT: "+str(STATIC_ROOT))
 print("STATIC_URL: "+str(STATIC_URL))

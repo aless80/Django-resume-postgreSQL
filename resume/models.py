@@ -10,6 +10,7 @@ def showall(klass):
             print(field.name, value)
             
 class PersonalInfo(models.Model):
+    id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=255)
     middle_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255)
@@ -31,7 +32,7 @@ class PersonalInfo(models.Model):
         return " ".join([self.first_name, self.middle_name, self.last_name])    
     def githubname(self):
         print('git='+str(self.github))
-        if self.github is not '':
+        if self.github != '':
             return self.github.rsplit('/',maxsplit=1)[1]
         else:
             return None
@@ -41,6 +42,7 @@ class PersonalInfo(models.Model):
         return self.full_name()
 
 class Overview(models.Model):
+    id = models.AutoField(primary_key=True)
     text = models.TextField()
     class Meta:
         verbose_name_plural = "02. Overview"
@@ -50,6 +52,7 @@ class Overview(models.Model):
         return self.text[0:40] + '...'
 
 class Education(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=250)
     name2 = models.CharField(max_length=250, blank=True)
     location = models.CharField(max_length=250)
@@ -87,6 +90,7 @@ class Education(models.Model):
         return self.name
 
 class Job(models.Model):
+    id = models.AutoField(primary_key=True)
     company = models.CharField(max_length=250)
     companyurl = models.URLField('Company URL')
     location = models.CharField(max_length=250)
@@ -129,6 +133,7 @@ class Job(models.Model):
         return self.company
 
 class JobAccomplishment(models.Model):
+    id = models.AutoField(primary_key=True)
     description = models.TextField()
     job = models.ForeignKey('Job',on_delete=models.CASCADE)
     order = models.IntegerField(default=1)
@@ -142,6 +147,7 @@ class JobAccomplishment(models.Model):
         return self.description[0:10]+'...'
 
 class Skillset(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.TextField()
     class Meta:
         verbose_name_plural = "06. Skillsets"
@@ -152,6 +158,7 @@ class Skillset(models.Model):
         return self.name
 
 class Skill(models.Model):
+    id = models.AutoField(primary_key=True)
     text =  models.TextField()
     order = models.IntegerField(default=1)
     #skillurl = models.URLField('Skill URL', blank=True)
@@ -165,6 +172,7 @@ class Skill(models.Model):
         return self.text
 
 class ProgrammingArea(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=250)
     order = models.IntegerField(default=1)
     class Meta:
@@ -174,6 +182,7 @@ class ProgrammingArea(models.Model):
         return self.name
 
 class ProgrammingLanguage(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=250)
     programmingarea = models.ForeignKey('ProgrammingArea',on_delete=models.CASCADE)
     NIH_proficiency_scale = (
@@ -196,6 +205,7 @@ class ProgrammingLanguage(models.Model):
         return self.name
 
 class Language(models.Model):
+    id = models.AutoField(primary_key=True)
     language = models.CharField(max_length=20,blank=False)
     order = models.IntegerField(default=1)
     ILR_scale = (
@@ -216,6 +226,7 @@ class Language(models.Model):
         return self.language
 
 class ProjectType(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     order = models.IntegerField(default=1)
     class Meta:
@@ -227,6 +238,7 @@ class ProjectType(models.Model):
         return self.name
 
 class Project(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     short_description = models.TextField(blank=True,help_text="Text shown in project list")
     long_description = models.TextField(blank=True,help_text="Text shown in modals appearing when clicking on images")
@@ -249,6 +261,7 @@ class Project(models.Model):
         return self.name
 
 class Achievement(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=True)
     description = models.TextField()
     order = models.IntegerField(default=1)
@@ -256,7 +269,7 @@ class Achievement(models.Model):
     # file will be uploaded to MEDIA_ROOT/<upload_to>  '/resume/static/resume/'
     achievement_pdf = models.FileField(upload_to='static/resume/img/', blank=True, help_text='Downloadable file')
     #linkdefault = 'this link'
-    #if url is not '': linkdefault = ''
+    #if url != '': linkdefault = ''
     #linkname = models.CharField(default=linkdefault, max_length=150, blank=True)
     class Meta:
         verbose_name_plural = "13. Achievements"
@@ -268,6 +281,7 @@ class Achievement(models.Model):
         return self.title
 
 class Publication(models.Model):
+    id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=250)
     authors = models.TextField()
     author_underlined = models.CharField(max_length=50, default="Marin A")
